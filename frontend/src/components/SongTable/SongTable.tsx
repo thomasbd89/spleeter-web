@@ -41,6 +41,27 @@ const statusColFormatter: ColumnFormatter<SongData> = (cell, row, rowIndex) => {
   );
 };
 
+/**
+ * Formatter function for play column
+ */
+const playColFormatter: ColumnFormatter<SongData> = (cell, row, rowIndex, formatExtraData) => {
+  const { currentSongUrl, isPlaying, handleSrcSongPause, handleSrcSongPlay } = formatExtraData;
+  const isPlayingCurrent = isPlaying && currentSongUrl === row.url;
+  const isDisabled = !row.url;
+
+  return (
+    <div className="d-flex align-items-center justify-content-center">
+      <PausePlayButton
+        disabled={isDisabled}
+        disabledText="Processing"
+        playing={isPlayingCurrent}
+        song={row}
+        onPauseClick={handleSrcSongPause}
+        onPlayClick={handleSrcSongPlay}
+      />
+    </div>
+  );
+};
 
 /**
  * Formatter function for separate button column.
