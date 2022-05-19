@@ -183,6 +183,7 @@ class Home extends React.Component<RouteComponentProps, State> {
       expandedIds: [...this.state.expandedIds, srcId],
     });
 
+    // Open Mixer page in new tab
     const win = window.open(`/mixer/${id}`, '_blank');
     win?.focus();
     this.loadData();
@@ -219,6 +220,23 @@ class Home extends React.Component<RouteComponentProps, State> {
       // Row is collapsed, remove current row ID from list
       this.setState({
         expandedIds: this.state.expandedIds.filter(s => s !== row.id),
+      });
+    }
+  };
+
+  /**
+   * Called when the expand-all button is pressed
+   */
+  onExpandAll = (isExpandAll: boolean, results: SongData[]): void => {
+    if (isExpandAll) {
+      // Update expanded row ID list to contain every row
+      this.setState({
+        expandedIds: results.map((i: SongData) => i.id),
+      });
+    } else {
+      // Clear expanded row ID list
+      this.setState({
+        expandedIds: [],
       });
     }
   };
