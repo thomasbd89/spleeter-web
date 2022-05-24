@@ -27,6 +27,45 @@ interface Props {
 class MusicPlayer extends React.Component<Props> {
   render(): JSX.Element | null {
     const { getAudioInstance, songData, staticMix, onAudioPause, onAudioPlay } = this.props;
+    if (!songData && !staticMix) {
+      return null;
+    }
+
+    // Show a colour-coded badge indicating the components that are included
+    let audioTitleExtra;
+    let audioList: ReactJkMusicPlayerAudioListProps[] = [];
+    if (songData) {
+      audioTitleExtra = <OriginalBadge title="Original" />;
+      audioList = [
+        {
+          name: songData.title,
+          singer: songData.artist,
+          musicSrc: songData.url,
+        },
+      ];
+    } else if (staticMix) {
+      const separatorBadge = (
+        // Remove everything in brackets to save space
+        <Badge variant="dark">{separatorLabelMap[staticMix.separator].replace(/ *\([^)]*\) */g, '')}</Badge>
+      );
+      const vocalBadge = staticMix.vocals ? <VocalsBadge title="Vocals" /> : null;
+      const accompBadge = staticMix.other ? <AccompShortBadge title="Accompaniment" /> : null;
+      const bassBadge = staticMix.bass ? <BassBadge title="Bass" /> : null;
+      const drumsBadge = staticMix.drums ? <DrumsBadge title="Drums" /> : null;
+      audioTitleExtra = (
+        <div className="badge-flex ml-2 mr-2">
+          {separatorBadge} {vocalBadge} {accompBadge} {bassBadge} {drumsBadge}
+        </div>
+      );
+      audioList = [
+        {
+          name: staticMix.title,
+          singer: staticMix.artist,
+          musicSrc: staticMix.url,
+        },
+      ];
+    }
+
     return (
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
