@@ -31,42 +31,6 @@ class AutoRefreshButton extends React.Component<Props, State> {
       seconds: props.period,
     };
   }
-
-  /**
-   * Function called once per tick (every second).
-   */
-  tick = async (): Promise<void> => {
-    const { period } = this.props;
-    const { isRefreshing, seconds } = this.state;
-
-    if (isRefreshing) {
-      return;
-    }
-
-    // Time for refresh
-    if (seconds <= 0) {
-      // Stop interval
-      clearInterval(this.tickInterval);
-      this.setState({
-        isRefreshing: true,
-      });
-      // Invoke callback and wait for it to resolve
-      await this.props.onRefresh();
-      // Reset ticks
-      this.setState({
-        isRefreshing: false,
-        seconds: period,
-      });
-      // Restart interval
-      this.tickInterval = setInterval(this.tick, 1000);
-    } else {
-      // Decrement ticks
-      this.setState({
-        seconds: this.state.seconds - 1,
-      });
-    }
-  };
-
   refreshNow = async (): Promise<void> => {
     const { period } = this.props;
     const { isRefreshing } = this.state;
