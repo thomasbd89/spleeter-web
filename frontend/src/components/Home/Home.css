@@ -23,22 +23,3 @@
   color: white;
 }
 
-.badge-accomp-faded {
-  background-color: #02abb42c;
-  color: white;
-}
-
-.badge-drums-faded {
-  background-color: #a8120d2a;
-  color: white;
-}
-
-.badge-bass-faded {
-  background-color: #095ca428;
-  color: white;
-}
-
-.refresher {
-  display: flex;
-  justify-content: flex-end;
-}
